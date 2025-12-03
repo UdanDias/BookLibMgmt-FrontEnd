@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import  Table  from "react-bootstrap/Table";
+import { GetBooks } from "./GetBooks";
 
 export function BookConsole(){
     const tHeads:String[]=[
@@ -14,12 +16,15 @@ export function BookConsole(){
         "Last Update Date",
         "Last Update Time"
     ]
-        
+    useEffect(()=>{
+        const loadData= async ()=>{
+            const bookDetails=await GetBooks();
+            console.log(bookDetails);
+        }
+        loadData();
 
-    
+    },[])
         
-
-    
     return (
         <Table striped bordered hover>
             <thead>

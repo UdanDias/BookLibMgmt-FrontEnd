@@ -1,14 +1,32 @@
 import  Table  from "react-bootstrap/Table";
 
 export function BookConsole(){
+    const tHeads:String[]=[
+        "Book Id",
+        "Name",
+        "Author",
+        "Edition",
+        "Publisher",
+        "ISBN",
+        "Price",
+        "Total Qty",
+        "Available Qty",
+        "Last Update Date",
+        "Last Update Time"
+    ]
+        
+
+    
+        
+
+    
     return (
         <Table striped bordered hover>
             <thead>
                 <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                    {tHeads.map((headings)=>(
+                        <th>{headings}</th>
+                    ))};
                 </tr>
             </thead>
             <tbody>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
+import { UpdateBooks } from "../service/UpdateBooks";
 
 interface Book{
         bookId:string;
@@ -48,8 +49,16 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:BookEditPro
         SetBook({...book,[e.target.name]:e.target.value})
     })
 
-    const handleSave=()=>{
-        console.log("successfully updated data")
+    const handleSave=async()=>{
+        try {
+            console.log("successfully updated data")
+            const updatedBook=await UpdateBooks(book)
+            handleUpdate(updatedBook)
+            handleOnClose()
+        } catch (error) {
+            console.error("failed to update the book ",error)
+        }
+        
     }
 
 
@@ -146,7 +155,7 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:BookEditPro
                 <FloatingLabel controlId="floatingInput" label="Available Quantity" className="mb-3">
                     <Form.Control
                         type="text"
-                        name="availabaleQty"
+                        name="availableQty"
                         value={book.availableQty}
                         onChange={handleOnChange}
                     />

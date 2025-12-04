@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import  Table  from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { EditBook } from "./EditBook";
-import { GetBooks } from "./GetBooks";
- interface Book{
+import { GetBooks } from "../service/GetBooks";
+ 
+export function BookConsole(){
+    interface Book{
         bookId:string;
         bookName:string;
         author:string;
@@ -17,7 +19,6 @@ import { GetBooks } from "./GetBooks";
         lastUpdateTime:string;
 
     }
-export function BookConsole(){
    
     const [books,SetBooks]=useState<Book[]>([]);
     const[bookEdit,SetBookEdit]=useState<Book | null>(null);
@@ -54,7 +55,7 @@ export function BookConsole(){
     }
     const handleOnClose=()=>SetShowEditBookForm(false);
     const handleUpdate=(updatedBook:Book)=>{
-        console.log("updated book",updatedBook)
+        console.log("updated  book from handle Update",updatedBook)
     }
         
     return (

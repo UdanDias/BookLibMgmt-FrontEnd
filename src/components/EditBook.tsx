@@ -1,4 +1,5 @@
-import { Button, Modal } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Button, Form, Modal } from "react-bootstrap";
 
 interface Book{
         bookId:string;
@@ -22,7 +23,35 @@ interface BookEditProps{
 
 
 }
-export const EditBook :React.FC<BookEditProps>=({show,selectedRow,handleOnClose,handleUpdate})=>{
+export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:BookEditProps)=>{
+    const[book,SetBook]=useState<Book>({
+        bookId:"",
+        bookName:"",
+        author:"",
+        edition:"",
+        publisher:"",
+        isbn:"",
+        price:0,
+        totalQty:0,
+        avaiableQty:0,
+        lastUpdateDate:"",
+        lastUpdateTime:""
+    });
+
+    useEffect(()=>{
+        if(selectedRow){
+            SetBook({...selectedRow})
+        }
+    },[selectedRow]);
+
+    const handleOnChange = ((e :React.ChangeEvent<HTMLInputElement>)=>{
+        SetBook({...book,[e.target.name]:e.target.value})
+    })
+
+    const handleSave=()=>{
+        console.log("successfully updated data")
+    }
+
 
     return (
         <>
@@ -30,15 +59,77 @@ export const EditBook :React.FC<BookEditProps>=({show,selectedRow,handleOnClose,
 
       <Modal show={show} onHide={handleOnClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Edit Book</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+            <Form>
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+
+                <Form.Floating className="mb-3">
+                    <Form.Control id="floatingInput" type="text" placeholder="name@example.com"
+                    />
+                    <label htmlFor="floatingInput">Book Id</label>
+                </Form.Floating>
+            </Form>
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleOnClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleOnClose}>
-            Save Changes
+          <Button variant="primary" onClick={handleSave}>
+            Update
           </Button>
         </Modal.Footer>
       </Modal>

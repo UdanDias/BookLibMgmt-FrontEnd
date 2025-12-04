@@ -1,8 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import  Table  from "react-bootstrap/Table";
 import { GetBooks } from "./GetBooks";
+import Button from "react-bootstrap/Button";
 
 export function BookConsole(){
+    interface Book{
+        bookId:string;
+        bookName:string;
+        author:string;
+        edition:string;
+        publisher:string;
+        isbn:string;
+        price:number;
+        totalQty:number;
+        avaiableQty:number;
+        lastUpdateDate:string;
+        lastUpdateTime:string;
+
+    }
+    const [books,SetBooks]=useState<Book[]>([]);
     const tHeads:String[]=[
         "Book Id",
         "Name",
@@ -14,44 +30,48 @@ export function BookConsole(){
         "Total Qty",
         "Available Qty",
         "Last Update Date",
-        "Last Update Time"
+        "Last Update Time",
+        "Action"
     ]
     useEffect(()=>{
         const loadData= async ()=>{
             const bookDetails=await GetBooks();
+            SetBooks(bookDetails)
             console.log(bookDetails);
         }
         loadData();
 
     },[])
+    
         
     return (
         <Table striped bordered hover>
             <thead>
                 <tr>
-                    {tHeads.map((headings)=>(
-                        <th>{headings}</th>
-                    ))};
+                    {tHeads.map((headings,index)=>(
+                        <th key={index}>{headings}</th>
+                    ))}
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                </tr>
-                <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-                </tr>
-                <tr>
-                <td>3</td>
-                <td colSpan={2}>Larry the Bird</td>
-                <td>@twitter</td>
-                </tr>
+                {books.map((rows)=>(
+                    <tr key={rows.bookId}>
+                        {Object.values(rows).map((cell,index)=>(
+                            <td key={index}>{cell}</td>
+                        ))}
+                        <td>
+                            <div className="d-flex gap-1">
+                                <Button style={{marginRight:"10px"}} variant="outline-secondary">Edit</Button>
+                                <Button variant="outline-danger">Delete</Button>
+                            </div>
+                                
+                            
+                            
+                        </td>
+                        
+                    </tr>
+                    
+                ))}
             </tbody>
         </Table>    
     );

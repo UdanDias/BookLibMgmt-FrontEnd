@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import  Table  from "react-bootstrap/Table";
-import { GetBooks } from "./GetBooks";
+import { GetBooks } from "../service/GetBooks";
 import Button from "react-bootstrap/Button";
 
 export function BookConsole(){
@@ -19,6 +19,7 @@ export function BookConsole(){
 
     }
     const [books,SetBooks]=useState<Book[]>([]);
+    const[bookEdit,SetBookEdit]=useState<Book | null>(null)
     const tHeads:String[]=[
         "Book Id",
         "Name",
@@ -37,11 +38,16 @@ export function BookConsole(){
         const loadData= async ()=>{
             const bookDetails=await GetBooks();
             SetBooks(bookDetails)
-            console.log(bookDetails);
+            console.log("book edited successfullly",bookDetails);
         }
         loadData();
 
     },[])
+
+    const handleEdit=(row:Book)=>{
+        alert("edited")
+        SetBookEdit(row);
+    }
     
         
     return (
@@ -61,7 +67,7 @@ export function BookConsole(){
                         ))}
                         <td>
                             <div className="d-flex gap-1">
-                                <Button style={{marginRight:"10px"}} variant="outline-secondary">Edit</Button>
+                                <Button onClick={() => handleEdit(rows) } style={{marginRight:"10px"}} variant="outline-secondary">Edit</Button>
                                 <Button variant="outline-danger">Delete</Button>
                             </div>
                                 

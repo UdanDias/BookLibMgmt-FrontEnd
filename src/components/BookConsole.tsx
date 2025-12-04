@@ -12,7 +12,7 @@ import { GetBooks } from "./GetBooks";
         isbn:string;
         price:number;
         totalQty:number;
-        avaiableQty:number;
+        availableQty:number;
         lastUpdateDate:string;
         lastUpdateTime:string;
 

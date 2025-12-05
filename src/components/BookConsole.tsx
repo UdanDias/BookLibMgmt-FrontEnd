@@ -3,7 +3,10 @@ import  Table  from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { EditBook } from "./EditBook";
 import { GetBooks } from "../service/GetBooks";
-import { DeleteBook } from "../service/DeleteBook";{}
+import { DeleteBook } from "../service/DeleteBook";
+import { AddBook } from "../service/AddBook";
+import {  AddBookForm } from "./AddBookForm";
+{}
  
 export function BookConsole(){
     interface Book{
@@ -23,7 +26,9 @@ export function BookConsole(){
    
     const [books,SetBooks]=useState<Book[]>([]);
     const [bookEdit,SetBookEdit]=useState<Book | null>(null);
+    const [bookAdd,SetBookAdd]=useState(null)
     const [showEditBookForm,SetShowEditBookForm]=useState(false);
+    const [showAddBookForm,SetShowAddBookForm]=useState(false);
     
     
     const tHeads:String[]=[
@@ -55,8 +60,12 @@ export function BookConsole(){
         SetBookEdit(row);
         SetShowEditBookForm(true)
     }
-    const handleOnClose=()=>{
+    const handleOnEditClose=()=>{
         SetShowEditBookForm(false)
+        SetBookEdit(null);
+    };
+    const handleOnAddClose=()=>{
+        SetShowAddBookForm(false)
         SetBookEdit(null);
     };
     const handleUpdate=(updatedBook:Book)=>{
@@ -83,9 +92,17 @@ export function BookConsole(){
         SetBooks(refreshedBooks);
 
     }
+    const handleAdd = (newBook: Book) => {
+    SetBooks([...books, newBook]);  // update table UI
+    SetShowAddBookForm(false);      // close modal
+};
+
+
         
     return (
         <>
+        <Button onClick={() => SetShowAddBookForm(true) } style={{marginRight:"10px"}} variant="outline-success">Add</Button>
+
         <Table striped bordered hover>
             <thead>
                 <tr>
@@ -118,9 +135,13 @@ export function BookConsole(){
         <EditBook
         show={showEditBookForm}
         selectedRow={bookEdit}
-        handleOnClose={handleOnClose}
+        handleOnClose={handleOnEditClose}
         handleUpdate={handleUpdate}
         />
+        <AddBookForm
+        show={showAddBookForm}
+        handleOnClose={handleOnAddClose}
+        handleAdd={handleAdd}/>
         </>   
     );
 }

@@ -45,9 +45,9 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:BookEditPro
         }
     },[selectedRow]);
 
-    const handleOnChange = ((e :React.ChangeEvent<HTMLInputElement>)=>{
+    const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=>{
         SetBook({...book,[e.target.name]:e.target.value})
-    })
+    }
 
     const handleSave=async()=>{
         try {

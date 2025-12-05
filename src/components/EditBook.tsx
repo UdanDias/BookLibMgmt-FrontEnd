@@ -55,6 +55,7 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:BookEditPro
             const updatedBook=await UpdateBooks(book)
             handleUpdate(updatedBook)
             handleOnClose()
+            
         } catch (error) {
             console.error("failed to update the book ",error)
         }

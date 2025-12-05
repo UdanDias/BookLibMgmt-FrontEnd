@@ -53,9 +53,26 @@ export function BookConsole(){
         SetBookEdit(row);
         SetShowEditBookForm(true)
     }
-    const handleOnClose=()=>SetShowEditBookForm(false);
+    const handleOnClose=()=>{
+        SetShowEditBookForm(false)
+        SetBookEdit(null);
+    };
     const handleUpdate=(updatedBook:Book)=>{
-        console.log("updated  book from handle Update",updatedBook)
+        const updatedBooks=books.map((book)=>
+            book.bookId===updatedBook.bookId?updatedBook:book
+        );
+        SetBooks(updatedBooks);
+        SetShowEditBookForm(false);
+        SetBookEdit(null)
+        refreshTable();
+    }
+    const handleDelete=(bookId:string)=>(
+        alert("Book deleted")
+    )
+    const refreshTable=async()=>{
+        const refreshedBooks=await GetBooks();
+        SetBooks(refreshedBooks);
+
     }
         
     return (
@@ -77,7 +94,7 @@ export function BookConsole(){
                         <td>
                             <div className="d-flex gap-1">
                                 <Button onClick={() => handleEdit(rows) } style={{marginRight:"10px"}} variant="outline-secondary">Edit</Button>
-                                <Button variant="outline-danger">Delete</Button>
+                                <Button variant="outline-danger" onClick={()=>handleDelete(rows.bookId)}>Delete</Button>
                             </div>
                                 
                             

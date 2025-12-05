@@ -1,5 +1,5 @@
 import axios from "axios"
-import { Console } from "console";
+
 
 const getBooksUrl="http://localhost:8081/booklib/api/v1/book/getallbooks"
 
@@ -11,5 +11,6 @@ export const GetBooks= async()=>{
     } catch (error) {
         console.error("failed to get the book data",error);
         throw error;
+        
     }
 } 

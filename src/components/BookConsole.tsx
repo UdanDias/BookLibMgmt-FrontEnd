@@ -3,6 +3,7 @@ import  Table  from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import { EditBook } from "./EditBook";
 import { GetBooks } from "../service/GetBooks";
+import { DeleteBook } from "../service/DeleteBook";{}
  
 export function BookConsole(){
     interface Book{
@@ -21,8 +22,9 @@ export function BookConsole(){
     }
    
     const [books,SetBooks]=useState<Book[]>([]);
-    const[bookEdit,SetBookEdit]=useState<Book | null>(null);
+    const [bookEdit,SetBookEdit]=useState<Book | null>(null);
     const [showEditBookForm,SetShowEditBookForm]=useState(false);
+    
     
     const tHeads:String[]=[
         "Book Id",
@@ -66,9 +68,16 @@ export function BookConsole(){
         SetBookEdit(null)
         refreshTable();
     }
-    const handleDelete=(bookId:string)=>(
-        alert("Book deleted")
-    )
+    const handleDelete= async(bookId:string)=>{
+        try {
+            await DeleteBook(bookId);
+            SetBooks(books.filter((book)=>book.bookId!==bookId))
+            // refreshTable()
+        } catch (error) {
+            console.error("failed to delete book",error)
+        }
+        
+    }
     const refreshTable=async()=>{
         const refreshedBooks=await GetBooks();
         SetBooks(refreshedBooks);

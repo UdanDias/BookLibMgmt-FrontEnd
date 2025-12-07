@@ -4,6 +4,7 @@ import { GetBooks } from "../service/GetBooks";
 import { EditBook } from "./EditBook";
 import { DeleteBook } from "../service/DeleteBook";
 import { AddNewBook } from "./AddNewBook";
+import { AddBook } from "../service/AddBook";
 
 const tHeads=[
     "Book Id",
@@ -25,11 +26,11 @@ interface Book{
     edition:string;
     publisher:string;
     isbn:string;
-    price:number;
-    totalQty:number;
-    availableQty:number;
-    lastUpdateDate:string;
-    lastUpdateTime:string;
+    price:string;
+    totalQty:string;
+    availableQty:string;
+    // lastUpdateDate:string;
+    // lastUpdateTime:string;
 }
 export const BookConsole=()=>{
     const[book,SetBook]=useState<Book[]>([])
@@ -42,7 +43,7 @@ export const BookConsole=()=>{
             console.log("Book data loaded");
             SetBook(bookDetails)
 
-        }
+    }
     useEffect(()=>{
         
         loadData();
@@ -83,7 +84,8 @@ export const BookConsole=()=>{
         }
     }
     const handleAdd=(newBook:Book)=>{
-        SetBook([...book,newBook])
+        SetBook((prevData)=>[...prevData,newBook])
+        loadData()
         SetShowAddBookForm(false);
         
         
@@ -133,6 +135,8 @@ export const BookConsole=()=>{
         show={showAddBookForm}
         handleOnClose={handleAddClose}
         handleAdd={handleAdd}
+        loadData={loadData}
+        
         />
         </>
         

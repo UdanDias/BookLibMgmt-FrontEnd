@@ -9,11 +9,11 @@ interface Book{
     edition:string;
     publisher:string;
     isbn:string;
-    price:number;
-    totalQty:number;
-    availableQty:number;
-    lastUpdateDate:string;
-    lastUpdateTime:string;
+    price:string;
+    totalQty:string;
+    availableQty:string;
+    // lastUpdateDate:string;
+    // lastUpdateTime:string;
 }
 interface EditBookProps{
     show:boolean;
@@ -29,11 +29,11 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:EditBookPro
         edition:"",
         publisher:"",
         isbn:"",
-        price:0,
-        totalQty:0,
-        availableQty:0,
-        lastUpdateDate:"",
-        lastUpdateTime:""
+        price:"",
+        totalQty:"",
+        availableQty:"",
+        // lastUpdateDate:"",
+        // lastUpdateTime:""
     });
     useEffect(()=>{
         if(selectedRow){
@@ -42,9 +42,14 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:EditBookPro
         
     },[selectedRow,show])
 
-    const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>(
-        SetBook({...book,[e.target.name]:e.target.value})
-    )
+    const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
+        const {name,value}=e.target
+        SetBook((prev) => ({
+            ...prev,
+            [name]: name === "price" || name === "totalQty" || name === "availableQty" ? Number(value) : value
+        }));
+
+    }
 
     const handleSave=async()=>{
         try {
@@ -157,7 +162,7 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:EditBookPro
                     
                 </FloatingLabel>
 
-                <FloatingLabel controlId="floatingInput" label="Last Update Date" className="mb-3">
+                {/* <FloatingLabel controlId="floatingInput" label="Last Update Date" className="mb-3">
                     <Form.Control
                         type="text"
                         name="lastUpdateDate"
@@ -175,7 +180,7 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:EditBookPro
                         onChange={handleOnChange}
                     />
                     
-                </FloatingLabel>
+                </FloatingLabel> */}
 
                 
             </Form>

@@ -11,5 +11,6 @@ export const AddBook=async(newBook:any)=>{
     return response.data;
     } catch (error) {
         console.error("failed to add Book data ", error)
+        throw error;
     }
 }

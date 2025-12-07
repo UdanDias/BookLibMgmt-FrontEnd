@@ -9,27 +9,51 @@ interface Book{
     edition:string;
     publisher:string;
     isbn:string;
-    price:number;
-    totalQty:number;
-    availableQty:number;
-    lastUpdateDate:string;
-    lastUpdateTime:string;
+    price:string;
+    totalQty:string;
+    availableQty:string;
+    // lastUpdateDate:string;
+    // lastUpdateTime:string;
 }
 interface BookAddProps{
     show:boolean;
     handleOnClose:()=>void;
     handleAdd:(newBook:Book)=>void;
+    loadData:()=>void;
 }
-export const AddNewBook=({show,handleOnClose,handleAdd}:BookAddProps)=>{
-    const[book,SetBook]=useState<Book>({}as Book);
+export const AddNewBook=({show,handleOnClose,handleAdd,loadData}:BookAddProps)=>{
+    const[book,SetBook]=useState<Book>({
+            bookId:"",
+            bookName:"",
+            author:"",
+            edition:"",
+            publisher:"",
+            isbn:"",
+            price:"",
+            totalQty:"",
+            availableQty:"",
+            // lastUpdateDate:"",
+            // lastUpdateTime:""
+        });
 
     const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-        SetBook({...book,[e.target.name]:e.target.value})
+        const {name,value}=e.target
+        SetBook((prev) => ({
+            ...prev,
+            [name]: name === "price" || name === "totalQty" || name === "availableQty" ? Number(value) : value
+        }));
+
     }
     const handleSave=async()=>{
-        const response=await AddBook(book)
-        handleAdd(book)
-        handleOnClose();
+        try {
+            await AddBook(book)
+            console.log("response for Add book",book)
+            handleAdd(book)
+            handleOnClose();
+        } catch (error) {
+            console.error("failed to add bookData from handle save",error)
+        }
+        
     }
 
     return (
@@ -40,7 +64,7 @@ export const AddNewBook=({show,handleOnClose,handleAdd}:BookAddProps)=>{
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <FloatingLabel controlId="floatingInput" label="Book Id" className="mb-3">
+                        {/* <FloatingLabel controlId="floatingInput" label="Book Id" className="mb-3">
                             <Form.Control
                                 type="text"
                                 name="bookId"
@@ -48,7 +72,7 @@ export const AddNewBook=({show,handleOnClose,handleAdd}:BookAddProps)=>{
                                 onChange={handleOnChange}
                             />
                             
-                        </FloatingLabel>
+                        </FloatingLabel> */}
 
                         <FloatingLabel controlId="floatingInput" label="Book Name" className="mb-3">
                             <Form.Control
@@ -112,7 +136,7 @@ export const AddNewBook=({show,handleOnClose,handleAdd}:BookAddProps)=>{
 
                         <FloatingLabel controlId="floatingInput" label="Total Quantity" className="mb-3">
                             <Form.Control
-                                type="text"
+                                type="number"
                                 name="totalQty"
                                 value={book.totalQty}
                                 onChange={handleOnChange}
@@ -122,7 +146,7 @@ export const AddNewBook=({show,handleOnClose,handleAdd}:BookAddProps)=>{
 
                         <FloatingLabel controlId="floatingInput" label="Available Quantity" className="mb-3">
                             <Form.Control
-                                type="text"
+                                type="number"
                                 name="availableQty"
                                 value={book.availableQty}
                                 onChange={handleOnChange}
@@ -130,7 +154,7 @@ export const AddNewBook=({show,handleOnClose,handleAdd}:BookAddProps)=>{
                             
                         </FloatingLabel>
 
-                        <FloatingLabel controlId="floatingInput" label="Last Update Date" className="mb-3">
+                        {/* <FloatingLabel controlId="floatingInput" label="Last Update Date" className="mb-3">
                             <Form.Control
                                 type="text"
                                 name="lastUpdateDate"
@@ -148,7 +172,7 @@ export const AddNewBook=({show,handleOnClose,handleAdd}:BookAddProps)=>{
                                 onChange={handleOnChange}
                             />
                             
-                        </FloatingLabel>
+                        </FloatingLabel> */}
 
                         
                     </Form>
@@ -157,7 +181,7 @@ export const AddNewBook=({show,handleOnClose,handleAdd}:BookAddProps)=>{
                 <Button variant="secondary" onClick={handleOnClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={()=>handleSave()}>
+                <Button variant="primary" onClick={handleSave}>
                     Save
                 </Button>
                 </Modal.Footer>

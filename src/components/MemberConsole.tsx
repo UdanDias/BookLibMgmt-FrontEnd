@@ -1,5 +1,5 @@
-export function MemberConsole(){
-    return (
+export const MemmberConsole=()=>{
+    return(
         <></>
-    );
+    )
 }

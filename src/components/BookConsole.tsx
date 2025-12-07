@@ -1,147 +1,140 @@
 import { useEffect, useState } from "react";
-import  Table  from "react-bootstrap/Table";
-import Button from "react-bootstrap/Button";
-import { EditBook } from "./EditBook";
+import { Button, Table } from "react-bootstrap";
 import { GetBooks } from "../service/GetBooks";
+import { EditBook } from "./EditBook";
 import { DeleteBook } from "../service/DeleteBook";
-import { AddBook } from "../service/AddBook";
-import {  AddBookForm } from "./AddBookForm";
-{}
- 
-export function BookConsole(){
-    interface Book{
-        bookId:string;
-        bookName:string;
-        author:string;
-        edition:string;
-        publisher:string;
-        isbn:string;
-        price:number;
-        totalQty:number;
-        availableQty:number;
-        lastUpdateDate:string;
-        lastUpdateTime:string;
+import { AddNewBook } from "./AddNewBook";
 
-    }
-   
-    const [books,SetBooks]=useState<Book[]>([]);
-    const [bookEdit,SetBookEdit]=useState<Book | null>(null);
-    const [bookAdd,SetBookAdd]=useState(null)
+const tHeads=[
+    "Book Id",
+    "Book Name",
+    "Author",
+    "Edition",
+    "Publisher",
+    "Isbn",
+    "Price",
+    "Total Quantity",
+    "Available Quantity",
+    "Last Update Date",
+    "Last Update Time"
+]
+interface Book{
+    bookId:string;
+    bookName:string;
+    author:string;
+    edition:string;
+    publisher:string;
+    isbn:string;
+    price:number;
+    totalQty:number;
+    availableQty:number;
+    lastUpdateDate:string;
+    lastUpdateTime:string;
+}
+export const BookConsole=()=>{
+    const[book,SetBook]=useState<Book[]>([])
+    const [selectedRow,SetSelectedRow]=useState<Book|null>(null);
     const [showEditBookForm,SetShowEditBookForm]=useState(false);
-    const [showAddBookForm,SetShowAddBookForm]=useState(false);
-    
-    
-    const tHeads:String[]=[
-        "Book Id",
-        "Name",
-        "Author",
-        "Edition",
-        "Publisher",
-        "ISBN",
-        "Price",
-        "Total Qty",
-        "Available Qty",
-        "Last Update Date",
-        "Last Update Time",
-        "Action"
-    ]
+    const [showAddBookForm,SetShowAddBookForm]=useState(false)
+
+    const loadData=async()=>{
+            const bookDetails=await GetBooks()
+            console.log("Book data loaded");
+            SetBook(bookDetails)
+
+        }
     useEffect(()=>{
-        const loadData= async ()=>{
-            const bookDetails=await GetBooks();
-            SetBooks(bookDetails)
-            console.log("book edited successfullly",bookDetails);
-        }
+        
         loadData();
-
+        
     },[])
-
     const handleEdit=(row:Book)=>{
-        
-        SetBookEdit(row);
-        SetShowEditBookForm(true)
+        SetSelectedRow(row);
+        SetShowEditBookForm(true);
+
     }
-    const handleOnEditClose=()=>{
+    const handleEditClose=()=>{
         SetShowEditBookForm(false)
-        SetBookEdit(null);
-    };
-    const handleOnAddClose=()=>{
+        
+    }
+    const handleAddClose=()=>{
         SetShowAddBookForm(false)
-        SetBookEdit(null);
-    };
+        
+    }
+
     const handleUpdate=(updatedBook:Book)=>{
-        const updatedBooks=books.map((book)=>
-            book.bookId===updatedBook.bookId?updatedBook:book
-        );
-        SetBooks(updatedBooks);
-        SetShowEditBookForm(false);
-        SetBookEdit(null)
-        refreshTable();
+        const updatedBooksDetails=book.map((row)=>(
+            row.bookId===updatedBook.bookId?updatedBook:row
+        ))
+        SetBook(updatedBooksDetails)
+        SetShowEditBookForm(false)
+        SetSelectedRow(null)
+        loadData()
+
     }
-    const handleDelete= async(bookId:string)=>{
+    const handleDelete=async(bookId:string)=>{
         try {
-            await DeleteBook(bookId);
-            SetBooks(books.filter((book)=>book.bookId!==bookId))
-            // refreshTable()
+            await DeleteBook(bookId)
+            console.log("book deleted successfully")
+            SetBook(book.filter((book)=>book.bookId!==bookId))
+            
         } catch (error) {
-            console.error("failed to delete book",error)
+            console.error("error deleteing book",error)
         }
+    }
+    const handleAdd=(newBook:Book)=>{
+        SetBook([...book,newBook])
+        SetShowAddBookForm(false);
+        
         
     }
-    const refreshTable=async()=>{
-        const refreshedBooks=await GetBooks();
-        SetBooks(refreshedBooks);
-
-    }
-    const handleAdd = (newBook: Book) => {
-    SetBooks([...books, newBook]);  // update table UI
-    SetShowAddBookForm(false);      // close modal
-};
+    
 
 
-        
-    return (
+    return(
         <>
-        <Button onClick={() => SetShowAddBookForm(true) } style={{marginRight:"10px"}} variant="outline-success">Add</Button>
+        <div className="d-flex justify-content-end p-3">
+            <Button variant="outline-success" onClick={()=>SetShowAddBookForm(true)}>Add</Button>
 
+        </div>
         <Table striped bordered hover>
-            <thead>
-                <tr>
-                    {tHeads.map((headings,index)=>(
-                        <th key={index}>{headings}</th>
+        <thead>
+            <tr>
+                {tHeads.map((tHead)=>(
+                    <th>{tHead}</th>
+                ))
+                }
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {book.map((row)=>(
+                <tr key={row.bookId}>{
+                    Object.values(row).map((cell,index)=>(
+                        <td key={index}>{cell}</td>
                     ))}
+                    <div className="d-flex gap-2">
+                        <td><Button variant="outline-secondary"onClick={()=>handleEdit(row)}>Edit</Button></td>
+                        <td><Button variant="outline-danger" onClick={()=>handleDelete(row.bookId)}>Delete</Button></td>
+
+                    </div>
                 </tr>
-            </thead>
-            <tbody>
-                {books.map((rows)=>(
-                    <tr key={rows.bookId}>
-                        {Object.values(rows).map((cell,index)=>(
-                            <td key={index}>{cell}</td>
-                        ))}
-                        <td>
-                            <div className="d-flex gap-1">
-                                <Button onClick={() => handleEdit(rows) } style={{marginRight:"10px"}} variant="outline-secondary">Edit</Button>
-                                <Button variant="outline-danger" onClick={()=>handleDelete(rows.bookId)}>Delete</Button>
-                            </div>
-                                
-                            
-                            
-                        </td>
-                        
-                    </tr>
-                    
-                ))}
-            </tbody>
+            ))}
+              
+        </tbody>
         </Table>
         <EditBook
         show={showEditBookForm}
-        selectedRow={bookEdit}
-        handleOnClose={handleOnEditClose}
+        selectedRow={selectedRow}
+        handleOnClose={handleEditClose}
         handleUpdate={handleUpdate}
         />
-        <AddBookForm
+        <AddNewBook
         show={showAddBookForm}
-        handleOnClose={handleOnAddClose}
-        handleAdd={handleAdd}/>
-        </>   
+        handleOnClose={handleAddClose}
+        handleAdd={handleAdd}
+        />
+        </>
+        
     );
 }

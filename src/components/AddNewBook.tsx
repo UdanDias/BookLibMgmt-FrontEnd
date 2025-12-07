@@ -3,55 +3,37 @@ import { Modal, Form, FloatingLabel, Button } from "react-bootstrap";
 import { AddBook } from "../service/AddBook";
 
 interface Book{
-        bookId:string;
-        bookName:string;
-        author:string;
-        edition:string;
-        publisher:string;
-        isbn:string;
-        price:number;
-        totalQty:number;
-        availableQty:number;
-        lastUpdateDate:string;
-        lastUpdateTime:string;
-
-    }
-    interface addBookProps{
-        show:boolean;
-        handleOnClose:()=>void;
-        handleAdd:(newBook:Book)=>void;
-
-    }
-    
-export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
-    const [newBook,SetNewBook]=useState<Book>({
-        bookId:"",
-        bookName:"",
-        author:"",
-        edition:"",
-        publisher:"",
-        isbn:"",
-        price:0,
-        totalQty:0,
-        availableQty:0,
-        lastUpdateDate:"",
-        lastUpdateTime:""
-    })
+    bookId:string;
+    bookName:string;
+    author:string;
+    edition:string;
+    publisher:string;
+    isbn:string;
+    price:number;
+    totalQty:number;
+    availableQty:number;
+    lastUpdateDate:string;
+    lastUpdateTime:string;
+}
+interface BookAddProps{
+    show:boolean;
+    handleOnClose:()=>void;
+    handleAdd:(newBook:Book)=>void;
+}
+export const AddNewBook=({show,handleOnClose,handleAdd}:BookAddProps)=>{
+    const[book,SetBook]=useState<Book>({}as Book);
 
     const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-        SetNewBook({...newBook,[e.target.name]:e.target.value})
-
+        SetBook({...book,[e.target.name]:e.target.value})
     }
-    const handleOnSubmit=async()=>{
-        const newBookDetails=await AddBook(newBook);
-        handleAdd(newBookDetails);
-        handleOnClose()
-
+    const handleSave=async()=>{
+        const response=await AddBook(book)
+        handleAdd(book)
+        handleOnClose();
     }
 
-    return(
+    return (
         <>
-        
             <Modal show={show} onHide={handleOnClose}>
                 <Modal.Header closeButton>
                 <Modal.Title>Add Book</Modal.Title>
@@ -62,7 +44,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="bookId"
-                                value={newBook.bookId}
+                                value={book.bookId}
                                 onChange={handleOnChange}
                             />
                             
@@ -72,7 +54,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="bookName"
-                                value={newBook.bookName}
+                                value={book.bookName}
                                 onChange={handleOnChange}
                             />
                             
@@ -82,7 +64,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="author"
-                                value={newBook.author}
+                                value={book.author}
                                 onChange={handleOnChange}
                             />
                             
@@ -92,7 +74,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="edition"
-                                value={newBook.edition}
+                                value={book.edition}
                                 onChange={handleOnChange}
                             />
                             
@@ -102,7 +84,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="publisher"
-                                value={newBook.publisher}
+                                value={book.publisher}
                                 onChange={handleOnChange}
                             />
                             
@@ -112,7 +94,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="isbn"
-                                value={newBook.isbn}
+                                value={book.isbn}
                                 onChange={handleOnChange}
                             />
                             
@@ -122,7 +104,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="number"
                                 name="price"
-                                value={newBook.price}
+                                value={book.price}
                                 onChange={handleOnChange}
                             />
                             
@@ -132,7 +114,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="totalQty"
-                                value={newBook.totalQty}
+                                value={book.totalQty}
                                 onChange={handleOnChange}
                             />
                             
@@ -142,7 +124,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="availableQty"
-                                value={newBook.availableQty}
+                                value={book.availableQty}
                                 onChange={handleOnChange}
                             />
                             
@@ -152,7 +134,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="lastUpdateDate"
-                                value={newBook.lastUpdateDate}
+                                value={book.lastUpdateDate}
                                 onChange={handleOnChange}
                             />
                             
@@ -162,7 +144,7 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                             <Form.Control
                                 type="text"
                                 name="lastUpdateTime"
-                                value={newBook.lastUpdateTime}
+                                value={book.lastUpdateTime}
                                 onChange={handleOnChange}
                             />
                             
@@ -175,12 +157,12 @@ export const AddBookForm=({show,handleOnClose,handleAdd}:addBookProps)=>{
                 <Button variant="secondary" onClick={handleOnClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={handleOnSubmit}>
-                    Add
+                <Button variant="primary" onClick={()=>handleSave()}>
+                    Save
                 </Button>
                 </Modal.Footer>
             </Modal>
+
         </>
     )
-
 }

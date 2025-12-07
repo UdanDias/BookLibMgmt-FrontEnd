@@ -1,5 +1,5 @@
-export function StaffConsole(){
-    return (
+export const StaffConsole=()=>{
+    return(
         <></>
-    );
+    )
 }

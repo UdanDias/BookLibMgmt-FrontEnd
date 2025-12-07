@@ -6,7 +6,7 @@ export const DeleteBook = async(bookId:string)=>{
         const response=await axios.delete(
         `${deleteUrl}?bookId=${bookId}`
         );
-        
+        return response.data;
     } catch (error) {
         console.error("failed to delete Data ",error)
         

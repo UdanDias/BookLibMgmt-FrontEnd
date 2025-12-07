@@ -1,30 +1,27 @@
 import { useEffect, useState } from "react";
-import { Button, FloatingLabel, Form, Modal } from "react-bootstrap";
+import { Button, FloatingLabel, Form, Modal } from "react-bootstrap"
 import { UpdateBooks } from "../service/UpdateBooks";
 
 interface Book{
-        bookId:string;
-        bookName:string;
-        author:string;
-        edition:string;
-        publisher:string;
-        isbn:string;
-        price:number;
-        totalQty:number;
-        availableQty:number;
-        lastUpdateDate:string;
-        lastUpdateTime:string;
-
-    }
-interface BookEditProps{
+    bookId:string;
+    bookName:string;
+    author:string;
+    edition:string;
+    publisher:string;
+    isbn:string;
+    price:number;
+    totalQty:number;
+    availableQty:number;
+    lastUpdateDate:string;
+    lastUpdateTime:string;
+}
+interface EditBookProps{
     show:boolean;
     selectedRow:Book|null;
-    handleOnClose :() => void;
-    handleUpdate :(updatedBook:Book) => void;
-
-
+    handleOnClose:()=>void;
+    handleUpdate:(updatedBook:Book)=>void;
 }
-export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:BookEditProps)=>{
+export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:EditBookProps)=>{
     const[book,SetBook]=useState<Book>({
         bookId:"",
         bookName:"",
@@ -38,34 +35,31 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:BookEditPro
         lastUpdateDate:"",
         lastUpdateTime:""
     });
-
     useEffect(()=>{
         if(selectedRow){
             SetBook({...selectedRow})
         }
-    },[selectedRow]);
+        
+    },[selectedRow,show])
 
-    const handleOnChange = (e :React.ChangeEvent<HTMLInputElement>)=>{
+    const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>(
         SetBook({...book,[e.target.name]:e.target.value})
-    }
+    )
 
     const handleSave=async()=>{
         try {
-            console.log("successfully updated data")
-            const updatedBook=await UpdateBooks(book)
-            handleUpdate(updatedBook)
-            handleOnClose()
-            
+            const updatedBooks=await UpdateBooks(book)
+            handleUpdate(updatedBooks);
+            handleOnClose();
         } catch (error) {
-            console.error("failed to update the book ",error)
+            console.error("failed to update book",error)
+            
         }
         
     }
-
-
-    return (
+    return(
         <>
-      
+        
 
       <Modal show={show} onHide={handleOnClose}>
         <Modal.Header closeButton>
@@ -194,7 +188,6 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:BookEditPro
             Update
           </Button>
         </Modal.Footer>
-      </Modal>
-    </>
-    );
+      </Modal></>
+    )
 }

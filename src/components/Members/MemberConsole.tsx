@@ -7,7 +7,7 @@ interface Member{
     memberId:string;
     name:string;
     email:string;
-    memberShipDate:string;
+    
 }
 export const MemberConsole=()=>{
     
@@ -18,7 +18,7 @@ export const MemberConsole=()=>{
         "Member Id",
         "Name",
         "Email",
-        "MemberShip Date"
+        "Membership Date"
     ]
     const loadData=async()=>{
         const loadedMembers=await GetAllMembers();
@@ -37,9 +37,17 @@ export const MemberConsole=()=>{
         SetSelectedRow(null)
         SetShowEditMemberForm(false)
     }
-    const handleOnUpdate=(member:Member)=>{
-        alert("updated successfully")
+    const handleOnUpdate=(updatedMember:Member)=>{
+        {
+           const afterUpdateMember=member.map((member)=>(
+                member.memberId===updatedMember.memberId?updatedMember:member
+           ))
+           SetMember(afterUpdateMember)
+           hanldeOnClose()
+           loadData()
+        }
     }
+    
     return(
         <>
             <Table striped bordered hover>
@@ -61,7 +69,7 @@ export const MemberConsole=()=>{
                                     <td key={index}>{cell}</td>
                                 ))
                             }
-                            <div className="d-flex gap-2 ">
+                            <div className="d-flex gap-2 justify-content-center">
                                 <Button variant="outline-secondary" onClick={()=>handleEdit(row)}>Edit</Button>
                                 <Button variant="outline-danger">Delete</Button>
                             </div>

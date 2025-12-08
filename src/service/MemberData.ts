@@ -10,4 +10,13 @@ const GetAllMembers=async()=>{
         console.error("failed to get member data",error)
     }    
 }
-export {GetAllMembers}
+const UpdateMember=async(updatedMember:any)=>{
+   try {
+        const response=await axios.patch(`${baseUrl}?memberId=${updatedMember.memberId}`,updatedMember)
+        console.log("successfully fetched updated payload")
+        return response.data
+   } catch (error) {
+        console.error("failed to update member",error)
+   } 
+}
+export {GetAllMembers,UpdateMember}

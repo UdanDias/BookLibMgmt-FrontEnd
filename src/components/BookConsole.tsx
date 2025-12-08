@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
-import { GetBooks } from "../service/GetBooks";
 import { EditBook } from "./EditBook";
-import { DeleteBook } from "../service/DeleteBook";
 import { AddNewBook } from "./AddNewBook";
-import { AddBook } from "../service/AddBook";
+import { AddBook,DeleteBook,GetBooks } from "../service/BookData";
 
 const tHeads=[
     "Book Id",

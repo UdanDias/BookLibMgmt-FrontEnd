@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, FloatingLabel, Form, Modal } from "react-bootstrap"
-import { UpdateBooks } from "../service/BookData";
+import { UpdateBooks } from "../../service/BookData";
+import { promises } from "dns";
 
 interface Book{
     bookId:string;
@@ -20,8 +21,9 @@ interface EditBookProps{
     selectedRow:Book|null;
     handleOnClose:()=>void;
     handleUpdate:(updatedBook:Book)=>void;
+    updateBook:(book:Book)=>Promise<void>
 }
-export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:EditBookProps)=>{
+export const EditBook=({show,selectedRow,handleOnClose,handleUpdate,updateBook}:EditBookProps)=>{
     const[book,SetBook]=useState<Book>({
         bookId:"",
         bookName:"",
@@ -53,8 +55,8 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:EditBookPro
 
     const handleSave=async()=>{
         try {
-            const updatedBooks=await UpdateBooks(book)
-            handleUpdate(updatedBooks);
+            await updateBook(book)
+            handleUpdate(book);
             handleOnClose();
         } catch (error) {
             console.error("failed to update book",error)
@@ -72,12 +74,13 @@ export const EditBook=({show,selectedRow,handleOnClose,handleUpdate}:EditBookPro
         </Modal.Header>
         <Modal.Body>
             <Form>
-                <FloatingLabel controlId="floatingInput" label="Book Id" className="mb-3">
+                <FloatingLabel controlId="floatingInput" label="Book Id" className="mb-3" >
                     <Form.Control
                         type="text"
                         name="bookId"
                         value={book.bookId}
                         onChange={handleOnChange}
+                        readOnly
                     />
                     
                 </FloatingLabel>

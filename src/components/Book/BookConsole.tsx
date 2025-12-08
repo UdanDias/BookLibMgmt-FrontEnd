@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { EditBook } from "./EditBook";
 import { AddNewBook } from "./AddNewBook";
-import { AddBook,DeleteBook,GetBooks } from "../service/BookData";
+import { AddBook,DeleteBook,GetBooks, UpdateBooks } from "../../service/BookData";
 
 const tHeads=[
     "Book Id",
@@ -128,6 +128,7 @@ export const BookConsole=()=>{
         selectedRow={selectedRow}
         handleOnClose={handleEditClose}
         handleUpdate={handleUpdate}
+        updateBook={UpdateBooks}
         />
         <AddNewBook
         show={showAddBookForm}

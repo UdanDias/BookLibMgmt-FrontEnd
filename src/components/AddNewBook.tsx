@@ -15,13 +15,13 @@ interface Book{
     // lastUpdateDate:string;
     // lastUpdateTime:string;
 }
-interface BookAddProps{
-    show:boolean;
-    handleOnClose:()=>void;
-    handleAdd:(newBook:Book)=>void;
-    loadData:()=>void;
-}
-export const AddNewBook=({show,handleOnClose,handleAdd,loadData}:BookAddProps)=>{
+// interface BookAddProps{
+//     show:boolean;
+//     handleOnClose:()=>void;
+//     handleAdd:(newBook:Book)=>void;
+//     loadData:()=>void;
+// }
+export const AddNewBook=({show,handleOnClose,handleAdd,loadData,addBook}:any)=>{
     const[book,SetBook]=useState<Book>({
             bookId:"",
             bookName:"",
@@ -46,7 +46,7 @@ export const AddNewBook=({show,handleOnClose,handleAdd,loadData}:BookAddProps)=>
     }
     const handleSave=async()=>{
         try {
-            await AddBook(book)
+            await addBook(book)
             console.log("response for Add book",book)
             handleAdd(book)
             handleOnClose();

@@ -134,6 +134,7 @@ export const BookConsole=()=>{
         handleOnClose={handleAddClose}
         handleAdd={handleAdd}
         loadData={loadData}
+        addBook={AddBook}
         
         />
         </>

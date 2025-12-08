@@ -19,4 +19,13 @@ const UpdateMember=async(updatedMember:any)=>{
         console.error("failed to update member",error)
    } 
 }
-export {GetAllMembers,UpdateMember}
+const DeleteMember=async(memberId:string)=>{
+   try {
+        const response=await axios.delete(`${baseUrl}?memberId=${memberId}`)
+        console.log("successfully deleted  member")
+        return response.data
+   } catch (error) {
+        console.error("failed to delete member",error)
+   } 
+}
+export {GetAllMembers,UpdateMember,DeleteMember}

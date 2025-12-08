@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap"
-import { GetAllMembers } from "../../service/MemberData";
+import { DeleteMember, GetAllMembers } from "../../service/MemberData";
 import { EditMember } from "./EditMember";
+
 
 interface Member{
     memberId:string;
@@ -47,7 +48,17 @@ export const MemberConsole=()=>{
            loadData()
         }
     }
-    
+    const handleDelete=async(memberId:string)=>{
+        try {
+            await DeleteMember(memberId)
+            console.log("deleted member successfully")
+            SetMember(member.filter((memb)=>memb.memberId!==memberId))
+        } catch (error) {
+            console.error("Error deleting the member",error)
+        }
+        
+        
+    }
     return(
         <>
             <Table striped bordered hover>
@@ -71,7 +82,7 @@ export const MemberConsole=()=>{
                             }
                             <div className="d-flex gap-2 justify-content-center">
                                 <Button variant="outline-secondary" onClick={()=>handleEdit(row)}>Edit</Button>
-                                <Button variant="outline-danger">Delete</Button>
+                                <Button variant="outline-danger" onClick={()=>handleDelete(row.memberId)}>Delete</Button>
                             </div>
                             
                         </tr>

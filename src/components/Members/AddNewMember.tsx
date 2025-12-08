@@ -1,46 +1,18 @@
-import { useEffect, useState } from "react";
-import { Button, FloatingLabel, Form, Modal } from "react-bootstrap"
-import { UpdateMember } from "../../service/MemberData";
+import { useState } from "react";
+import { Modal, Form, FloatingLabel, Button } from "react-bootstrap"
 interface Member{
     memberId:string;
     name:string;
     email:string;
     
 }
-interface MemberEditProps{
-    show:boolean;
-    selectedRow:Member|null;
-    handleOnClose:()=>void;
-    handleUpdate:(member:Member)=>void
-}
-
-export const EditMember=({show,selectedRow,handleOnClose,handleUpdate}:MemberEditProps)=>{
-    const[member,SetMember]=useState<Member>({
+export const AddNewMember=()=>{
+    const [newMember,SetNewMember]=useState<Member>({
         memberId:"",
         name:"",
         email:"",
        
     })
-    useEffect(()=>{if(selectedRow){
-        SetMember({...selectedRow})
-      }}
-    ,[selectedRow])
-
-    const handleOnchange=(e:React.ChangeEvent<HTMLInputElement>)=>{
-      const {name,value}=e.target;
-      SetMember((prev)=>({...prev,[name]:value}))
-    }
-    const handleSave=async()=>{
-      try {
-        await UpdateMember(member)
-        handleUpdate(member);
-        handleOnClose();
-      } catch (error) {
-        console.error("error updating the backend",error)
-      }
-      
-      
-    }
     return (
         <>
         <Modal show={show} onHide={handleOnClose}>
@@ -93,10 +65,11 @@ export const EditMember=({show,selectedRow,handleOnClose,handleUpdate}:MemberEdi
             Close
           </Button>
           <Button variant="primary" onClick={()=>handleSave()}>
-            Save Changes
+            Add Member
           </Button>
         </Modal.Footer>
       </Modal>
+        
         </>
     )
 }

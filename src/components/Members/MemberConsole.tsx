@@ -61,6 +61,7 @@ export const MemberConsole=()=>{
     }
     return(
         <>
+        <Button variant="outline-secondary" >Add</Button>
             <Table striped bordered hover>
                 <thead>
                     <tr >

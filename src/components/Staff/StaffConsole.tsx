@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Table } from "react-bootstrap"
+import { Button, Table } from "react-bootstrap"
 import { GetStaff } from "../../service/StaffData";
 
 const tHeads=[
@@ -57,7 +57,12 @@ export const StaffConsole=()=>{
                             <tr key={row.staffId}>
                                 {Object.values(row).map((cell,index)=>(
                                     <td key={index}>{cell}</td>
-                                ))}
+                                ))
+                                }
+                                <div className="d-flex gap-2 p-3">
+                                    <Button variant="outline-secondary">Edit</Button>
+                                    <Button variant="outline-danger">Delete</Button>
+                                </div>
                             </tr>
                         ))
                     }

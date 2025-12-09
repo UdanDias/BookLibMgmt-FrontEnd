@@ -15,6 +15,8 @@ export const MemberConsole=()=>{
     const [member,SetMember]=useState<Member[]>([])
     const [selectedRow,SetSelectedRow]=useState<Member|null>(null);
     const [showEditMemberForm,SetShowEditMemberForm]=useState(false);
+    const[showAddMemberForm,SetShowAddMemberForm]=useState(false);
+
     const tHeads=[
         "Member Id",
         "Name",
@@ -59,9 +61,12 @@ export const MemberConsole=()=>{
         
         
     }
+    const handleAdd=()=>{
+
+    }
     return(
         <>
-        <Button variant="outline-secondary" >Add</Button>
+        <Button variant="outline-secondary" onClick={()=>SetShowAddMemberForm} >Add</Button>
             <Table striped bordered hover>
                 <thead>
                     <tr >

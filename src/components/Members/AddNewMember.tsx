@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Modal, Form, FloatingLabel, Button } from "react-bootstrap"
+import { Prev } from "react-bootstrap/esm/PageItem";
 interface Member{
     memberId:string;
     name:string;
@@ -13,6 +14,12 @@ export const AddNewMember=()=>{
         email:"",
        
     })
+
+    const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
+        const{name,value}=e.target;
+        SetNewMember((prev)=>({...prev,[name]:value}
+        ))
+    }
     return (
         <>
         <Modal show={show} onHide={handleOnClose}>

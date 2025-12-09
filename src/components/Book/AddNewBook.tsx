@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Form, FloatingLabel, Button } from "react-bootstrap";
 
 
@@ -22,6 +22,19 @@ interface Book{
 //     loadData:()=>void;
 // }
 export const AddNewBook=({show,handleOnClose,handleAdd,loadData,addBook}:any)=>{
+    useEffect(()=>(
+        SetBook({
+            bookId:"",
+            bookName:"",
+            author:"",
+            edition:"",
+            publisher:"",
+            isbn:"",
+            price:"",
+            totalQty:"",
+            availableQty:"",
+        })
+    ),[show])
     const[book,SetBook]=useState<Book>({
             bookId:"",
             bookName:"",

@@ -8,6 +8,7 @@ const GetAllMembers=async()=>{
         return response.data
     } catch (error) {
         console.error("failed to get member data",error)
+        throw error
     }    
 }
 const UpdateMember=async(updatedMember:any)=>{
@@ -17,6 +18,7 @@ const UpdateMember=async(updatedMember:any)=>{
         return response.data
    } catch (error) {
         console.error("failed to update member",error)
+        throw error
    } 
 }
 const DeleteMember=async(memberId:string)=>{
@@ -26,15 +28,17 @@ const DeleteMember=async(memberId:string)=>{
         return response.data
    } catch (error) {
         console.error("failed to delete member",error)
+        throw error
    } 
 }
 const AddMember=async(member:any)=>{
      try {
-          const response=await axios.post(baseUrl)
+          const response=await axios.post(baseUrl,member)
           return response.data;
           
      } catch (error) {
           console.error("Error sending post request",error)
+          throw error
      }
      
 }

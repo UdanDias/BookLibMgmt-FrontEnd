@@ -10,4 +10,13 @@ const GetStaff= async ()=>{
         console.error("Error fetching data from backend",error)
     }
 }
+const UpdateStaff= async (updatedStaff:any)=>{
+    
+    try {
+        const response=await axios.patch(`${baseUrl}?staffId=${updatedStaff.staffId}`,updatedStaff)
+        return response.data;
+    } catch (error) {
+        console.error("Error updating data to backend",error)
+    }
+}
 export{GetStaff}

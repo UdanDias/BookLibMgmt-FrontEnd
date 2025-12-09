@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 
 interface Staff{
@@ -17,7 +18,23 @@ interface EditStaffProps{
     handleClose:()=>void;
     handleUpdate:(updatedStaff:Staff)=>void
 }
-export const EditStaff=()=>{
+export const EditStaff=({show,selectedRow,handleClose,handleUpdate}:EditStaffProps)=>{
+    const [newStaff,SetNewStaff]=useState<Staff>({
+        staffId:"",
+        firstName:"",
+        lastName:"",
+        email:"",
+        joinDate:"",
+        lastUpdateDate:"",
+        lastUpdateTime:"",
+        phone:"",
+        role:"",
+    })
+
+    const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
+        const {name,value}=e.target;
+        SetNewStaff((prev=>({...prev,[name]:value})))
+    }
     return (
         <>
             <Modal show={show} onHide={handleClose}>

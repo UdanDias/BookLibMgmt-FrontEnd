@@ -19,4 +19,4 @@ const UpdateStaff= async (updatedStaff:any)=>{
         console.error("Error updating data to backend",error)
     }
 }
-export{GetStaff}
+export{GetStaff,UpdateStaff}

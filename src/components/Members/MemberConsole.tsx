@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap"
-import { DeleteMember, GetAllMembers } from "../../service/MemberData";
+import { AddMember, DeleteMember, GetAllMembers } from "../../service/MemberData";
 import { EditMember } from "./EditMember";
+import { AddNewMember } from "./AddNewMember";
 
 
 interface Member{
@@ -36,9 +37,13 @@ export const MemberConsole=()=>{
         SetSelectedRow(row);
         SetShowEditMemberForm(true)
     }
-    const hanldeOnClose=()=>{
+    const hanldeOnEditClose=()=>{
         SetSelectedRow(null)
         SetShowEditMemberForm(false)
+    }
+    const hanldeOnAddClose=()=>{
+        SetSelectedRow(null)
+        SetShowAddMemberForm(false)
     }
     const handleOnUpdate=(updatedMember:Member)=>{
         {
@@ -46,7 +51,7 @@ export const MemberConsole=()=>{
                 member.memberId===updatedMember.memberId?updatedMember:member
            ))
            SetMember(afterUpdateMember)
-           hanldeOnClose()
+           hanldeOnEditClose()
            loadData()
         }
     }
@@ -61,12 +66,21 @@ export const MemberConsole=()=>{
         
         
     }
-    const handleAdd=()=>{
+    const handleAdd=(newMember:Member)=>{
+        SetMember((prev)=>(
+            [...prev,newMember]
+        ))
+        loadData()
+        hanldeOnAddClose()
+        
 
     }
     return(
         <>
-        <Button variant="outline-secondary" onClick={()=>SetShowAddMemberForm(true)} >Add</Button>
+        <div className="d-flex justify-content-end p-3">
+            <Button variant="outline-success" onClick={()=>SetShowAddMemberForm(true)} >Add</Button>
+
+        </div>
             <Table striped bordered hover>
                 <thead>
                     <tr >
@@ -101,8 +115,13 @@ export const MemberConsole=()=>{
             <EditMember
                 show={showEditMemberForm}
                 selectedRow={selectedRow}
-                handleOnClose={hanldeOnClose}
+                handleOnClose={hanldeOnEditClose}
                 handleUpdate={handleOnUpdate}
+            />
+            <AddNewMember
+            show={showAddMemberForm}
+            handleOnClose={hanldeOnAddClose}
+            handleAdd={handleAdd}
             />
         </>
     )

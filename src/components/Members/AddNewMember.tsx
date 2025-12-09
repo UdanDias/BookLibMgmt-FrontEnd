@@ -1,13 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Form, FloatingLabel, Button } from "react-bootstrap"
 import { Prev } from "react-bootstrap/esm/PageItem";
+import { AddMember } from "../../service/MemberData";
 interface Member{
     memberId:string;
     name:string;
     email:string;
     
 }
-export const AddNewMember=()=>{
+interface AddMemberProps{
+   show:boolean;
+   handleOnClose:()=>void;
+   handleAdd:(member:Member)=>void
+}
+export const AddNewMember=({show,handleOnClose,handleAdd}:AddMemberProps)=>{
+  
     const [newMember,SetNewMember]=useState<Member>({
         memberId:"",
         name:"",
@@ -15,38 +22,54 @@ export const AddNewMember=()=>{
        
     })
 
+    useEffect(()=>{
+      SetNewMember({
+        memberId:"",
+      name:"",
+      email:"",
+      })
+    },[show])
     const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         const{name,value}=e.target;
         SetNewMember((prev)=>({...prev,[name]:value}
         ))
     }
-    const handleSave=()=>{
+    const handleSave=async()=>{
+      try {
+        await AddMember(newMember);
+        console.log("Successfully added a new member",newMember);
+        handleAdd(newMember);
+        handleOnClose()
+      } catch (error) {
+        console.error("error occurred while adding a member",error)
+      }
       
+
     }
     return (
         <>
         <Modal show={show} onHide={handleOnClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Edit Member</Modal.Title>
+          <Modal.Title>Add Member</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <FloatingLabel controlId="floatingInput" label="Member Id" className="mb-3" >
+            {/* <FloatingLabel controlId="floatingInput" label="Member Id" className="mb-3" >
               <Form.Control
                 type="text"
                 name="memberId"
-                value={member.memberId}
-                onChange={handleOnchange}
+                value={newMember.memberId}
+                onChange={handleOnChange}
                 readOnly
               />
-            </FloatingLabel>
+            </FloatingLabel> */}
           
             <FloatingLabel controlId="floatingInput" label="Name" className="mb-3" >
               <Form.Control
                 type="text"
                 name="name"
-                value={member.name}
-                onChange={handleOnchange}
+                value={newMember.name}
+                onChange={handleOnChange}
                 
               />
             </FloatingLabel>
@@ -54,8 +77,8 @@ export const AddNewMember=()=>{
               <Form.Control
                 type="text"
                 name="email"
-                value={member.email}
-                onChange={handleOnchange}
+                value={newMember.email}
+                onChange={handleOnChange}
                 
               />
             </FloatingLabel> 

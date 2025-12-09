@@ -20,8 +20,8 @@ interface Staff{
     lastName:string;
     email:string;
     joinDate:string;
-    lastUpdateDate:string;
-    lastUpdateTime:string;
+    // lastUpdateDate:string;
+    // lastUpdateTime:string;
     phone:string;
     role:string;
 }

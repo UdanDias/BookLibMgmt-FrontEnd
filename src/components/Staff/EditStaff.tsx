@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Modal, Button, FloatingLabel, Form } from "react-bootstrap";
+import { UpdateStaff } from "../../service/StaffData";
 
 interface Staff{
     staffId:string;
@@ -7,8 +8,8 @@ interface Staff{
     lastName:string;
     email:string;
     joinDate:string;
-    lastUpdateDate:string;
-    lastUpdateTime:string;
+    // lastUpdateDate:string;
+    // lastUpdateTime:string;
     phone:string;
     role:string;
 }
@@ -25,8 +26,8 @@ export const EditStaff=({show,selectedRow,handleClose,handleUpdate}:EditStaffPro
         lastName:"",
         email:"",
         joinDate:"",
-        lastUpdateDate:"",
-        lastUpdateTime:"",
+        // lastUpdateDate:"",
+        // lastUpdateTime:"",
         phone:"",
         role:"",
     })
@@ -39,8 +40,14 @@ export const EditStaff=({show,selectedRow,handleClose,handleUpdate}:EditStaffPro
         if(selectedRow){
             SetStaff({...selectedRow})
         }
+    },[selectedRow])
+
+    const handleSave=async()=>{
+        await UpdateStaff(staff)
+        handleUpdate(staff)
+        console.log("Successfully updated Staff member Details",staff)
         
-},[selectedRow])
+    }
     return (
         <>
             <Modal show={show} onHide={handleClose}>
@@ -95,7 +102,7 @@ export const EditStaff=({show,selectedRow,handleClose,handleUpdate}:EditStaffPro
                             
                         />
                         </FloatingLabel> 
-                        <FloatingLabel controlId="floatingInput" label="Last Update Date" className="mb-3" >
+                        {/* <FloatingLabel controlId="floatingInput" label="Last Update Date" className="mb-3" >
                         <Form.Control
                             type="text"
                             name="lastUpdateDate"
@@ -104,6 +111,15 @@ export const EditStaff=({show,selectedRow,handleClose,handleUpdate}:EditStaffPro
                             
                         />
                         </FloatingLabel> 
+                        <FloatingLabel controlId="floatingInput" label="Last Update Time" className="mb-3" >
+                        <Form.Control
+                            type="text"
+                            name="lastUpdateTime"
+                            value={staff.lastUpdateTime}
+                            onChange={handleOnChange}
+                            
+                        />
+                        </FloatingLabel>  */}
                         <FloatingLabel controlId="floatingInput" label="Phone" className="mb-3" >
                         <Form.Control
                             type="text"
@@ -129,8 +145,8 @@ export const EditStaff=({show,selectedRow,handleClose,handleUpdate}:EditStaffPro
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={handleClose}>
-                    update
+                <Button variant="primary" onClick={handleSave}>
+                    Update
                 </Button>
                 </Modal.Footer>
             </Modal>

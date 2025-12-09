@@ -20,6 +20,9 @@ export const AddNewMember=()=>{
         SetNewMember((prev)=>({...prev,[name]:value}
         ))
     }
+    const handleSave=()=>{
+      
+    }
     return (
         <>
         <Modal show={show} onHide={handleOnClose}>

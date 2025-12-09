@@ -28,4 +28,14 @@ const DeleteMember=async(memberId:string)=>{
         console.error("failed to delete member",error)
    } 
 }
-export {GetAllMembers,UpdateMember,DeleteMember}
+const AddMember=async(member:any)=>{
+     try {
+          const response=await axios.post(baseUrl)
+          return response.data;
+          
+     } catch (error) {
+          console.error("Error sending post request",error)
+     }
+     
+}
+export {GetAllMembers,UpdateMember,DeleteMember,AddMember}

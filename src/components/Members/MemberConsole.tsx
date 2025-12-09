@@ -66,7 +66,7 @@ export const MemberConsole=()=>{
     }
     return(
         <>
-        <Button variant="outline-secondary" onClick={()=>SetShowAddMemberForm} >Add</Button>
+        <Button variant="outline-secondary" onClick={()=>SetShowAddMemberForm(true)} >Add</Button>
             <Table striped bordered hover>
                 <thead>
                     <tr >

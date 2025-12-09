@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Modal, Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { Modal, Button, FloatingLabel, Form } from "react-bootstrap";
 
 interface Staff{
     staffId:string;
@@ -19,7 +19,7 @@ interface EditStaffProps{
     handleUpdate:(updatedStaff:Staff)=>void
 }
 export const EditStaff=({show,selectedRow,handleClose,handleUpdate}:EditStaffProps)=>{
-    const [newStaff,SetNewStaff]=useState<Staff>({
+    const [staff,SetStaff]=useState<Staff>({
         staffId:"",
         firstName:"",
         lastName:"",
@@ -33,21 +33,104 @@ export const EditStaff=({show,selectedRow,handleClose,handleUpdate}:EditStaffPro
 
     const handleOnChange=(e:React.ChangeEvent<HTMLInputElement>)=>{
         const {name,value}=e.target;
-        SetNewStaff((prev=>({...prev,[name]:value})))
+        SetStaff((prev)=>({...prev,[name]:value}))
     }
+    useEffect(()=>{
+        if(selectedRow){
+            SetStaff({...selectedRow})
+        }
+        
+},[selectedRow])
     return (
         <>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                 <Modal.Title>Edit Staff</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+                <Modal.Body>
+                    <Form>
+                        <FloatingLabel controlId="floatingInput" label="Staff Id" className="mb-3" >
+                        <Form.Control
+                            type="text"
+                            name="staffId"
+                            value={staff.staffId}
+                            onChange={handleOnChange}
+                            readOnly
+                        />
+                        </FloatingLabel>
+                    
+                        <FloatingLabel controlId="floatingInput" label="First Name" className="mb-3" >
+                        <Form.Control
+                            type="text"
+                            name="firstName"
+                            value={staff.firstName}
+                            onChange={handleOnChange}
+                            
+                        />
+                        </FloatingLabel>
+                        <FloatingLabel controlId="floatingInput" label="Last Name" className="mb-3" >
+                        <Form.Control
+                            type="text"
+                            name="lastName"
+                            value={staff.lastName}
+                            onChange={handleOnChange}
+                            
+                        />
+                        </FloatingLabel> 
+                        <FloatingLabel controlId="floatingInput" label="Email" className="mb-3" >
+                        <Form.Control
+                            type="text"
+                            name="email"
+                            value={staff.email}
+                            onChange={handleOnChange}
+                            
+                        />
+                        </FloatingLabel> 
+                        <FloatingLabel controlId="floatingInput" label="Joined Date" className="mb-3" >
+                        <Form.Control
+                            type="text"
+                            name="joinDate"
+                            value={staff.joinDate}
+                            onChange={handleOnChange}
+                            
+                        />
+                        </FloatingLabel> 
+                        <FloatingLabel controlId="floatingInput" label="Last Update Date" className="mb-3" >
+                        <Form.Control
+                            type="text"
+                            name="lastUpdateDate"
+                            value={staff.lastUpdateDate}
+                            onChange={handleOnChange}
+                            
+                        />
+                        </FloatingLabel> 
+                        <FloatingLabel controlId="floatingInput" label="Phone" className="mb-3" >
+                        <Form.Control
+                            type="text"
+                            name="phone"
+                            value={staff.phone}
+                            onChange={handleOnChange}
+                            
+                        />
+                        </FloatingLabel> 
+                        <FloatingLabel controlId="floatingInput" label="Role" className="mb-3" >
+                        <Form.Control
+                            type="text"
+                            name="role"
+                            value={staff.role}
+                            onChange={handleOnChange}
+                            
+                        />
+                        </FloatingLabel> 
+            
+                    </Form>
+                </Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
                 <Button variant="primary" onClick={handleClose}>
-                    Save Changes
+                    update
                 </Button>
                 </Modal.Footer>
             </Modal>

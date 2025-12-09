@@ -79,10 +79,13 @@ export const StaffConsole=()=>{
                                     <td key={index}>{cell}</td>
                                 ))
                                 }
-                                <div className="d-flex gap-2 p-3">
+                                <td>
+                                    <div className="d-flex gap-2 p-3">
                                     <Button variant="outline-secondary" onClick={()=>handleEdit(row)}>Edit</Button>
                                     <Button variant="outline-danger">Delete</Button>
-                                </div>
+                                    </div>
+                                </td>
+                                
                             </tr>
                         ))
                     }

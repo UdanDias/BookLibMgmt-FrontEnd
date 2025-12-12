@@ -19,4 +19,24 @@ const UpdateStaff= async (updatedStaff:any)=>{
         console.error("Error updating data to backend",error)
     }
 }
-export{GetStaff,UpdateStaff}
+const DeleteStaff=async(staffid:string)=>{
+    try {
+        await axios.delete(`${baseUrl}/delete?staffId=${staffid}`);
+        console.log("Successfully deleted staff member");
+    } catch (error) {
+        console.error("Error while deleting staff member",error);
+        throw error;
+    }
+
+
+}
+const AddStaff= async (newStaff:any)=>{
+    
+    try {
+        const response=await axios.post(baseUrl,newStaff)
+        return response.data;
+    } catch (error) {
+        console.error("Error saving staff member  data to backend",error)
+    }
+}
+export{GetStaff,UpdateStaff,DeleteStaff,AddStaff}
